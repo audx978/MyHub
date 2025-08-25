@@ -1,17 +1,32 @@
 local ScreenGui = Instance.new("ScreenGui")
-local Button = Instance.new("TextButton")
+local SaveButton = Instance.new("TextButton")
+local TpButton = Instance.new("TextButton")
 
-ScreenGui.Parent = game:GetService("CoreGui")
-Button.Size = UDim2.new(0, 200, 0, 50)
-Button.Position = UDim2.new(0.5, -100, 0.5, -25)
-Button.Text = "Teleport Up"
-Button.Parent = ScreenGui
+ScreenGui.Parent = gethui()
 
-Button.MouseButton1Click:Connect(function()
+SaveButton.Size = UDim2.new(0, 200, 0, 50)
+SaveButton.Position = UDim2.new(0.5, -100, 0.5, -80)
+SaveButton.Text = "Save Position"
+SaveButton.Parent = ScreenGui
+
+TpButton.Size = UDim2.new(0, 200, 0, 50)
+TpButton.Position = UDim2.new(0.5, -100, 0.5, -20)
+TpButton.Text = "Teleport Back"
+TpButton.Parent = ScreenGui
+
+-- ตัวแปรเก็บตำแหน่ง
+local savedCFrame = nil
+
+SaveButton.MouseButton1Click:Connect(function()
     local player = game.Players.LocalPlayer
     if player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
-        player.Character.HumanoidRootPart.CFrame =
-            player.Character.HumanoidRootPart.CFrame + Vector3.new(0, 50, 0)
+        savedCFrame = player.Character.HumanoidRootPart.CFrame
     end
 end)
--
+
+TpButton.MouseButton1Click:Connect(function()
+    local player = game.Players.LocalPlayer
+    if savedCFrame and player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
+        player.Character.HumanoidRootPart.CFrame = savedCFrame
+    end
+end)
